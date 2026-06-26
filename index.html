@@ -219,58 +219,44 @@
     .stat-n em { color:var(--accent); font-style:normal; }
     .stat-l { font-size:12px; color:var(--text2); margin-top:2px; }
 
-    /* hero card */
-    .hero-card {
-      background:var(--surface); border:1.5px solid var(--border2);
-      border-radius:24px; overflow:hidden;
-      box-shadow:0 32px 80px rgba(0,0,0,.28);
-      position:relative; max-width:420px;
+    /* hero photo */
+    .hero-photo-wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
     }
-    .hero-card::before {
-      content:''; position:absolute; inset:-1px; border-radius:25px;
-      background:linear-gradient(140deg,var(--accent),transparent 55%);
-      z-index:-1; opacity:.4;
+    .hero-photo-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 32px;
+      background: linear-gradient(145deg, rgba(124,110,250,0.15) 0%, transparent 60%);
+      z-index: 0;
     }
-
-    /* photo area */
-    .hc-photo {
-      position:relative; width:100%; height:320px; overflow:hidden;
-      background:linear-gradient(180deg,#0f1628 0%,#1a1040 100%);
+    .hero-photo-img {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 480px;
+      border-radius: 28px;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.35);
+      aspect-ratio: 4/5;
     }
-    .hc-photo img {
-      width:100%; height:100%; object-fit:cover; object-position:center top;
-      display:block;
+    .hero-photo-badge {
+      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+      z-index: 2; white-space: nowrap;
+      background: var(--surface);
+      border: 1.5px solid var(--border2);
+      backdrop-filter: blur(16px);
+      border-radius: 100px; padding: 10px 20px;
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
     }
-    .hc-photo-overlay {
-      position:absolute; inset:0;
-      background:linear-gradient(to bottom, transparent 50%, var(--surface) 100%);
-    }
-    .hc-photo-badge {
-      position:absolute; top:16px; right:16px;
-      background:rgba(6,9,20,.7); backdrop-filter:blur(12px);
-      border:1px solid rgba(255,255,255,.1);
-      border-radius:100px; padding:6px 12px;
-      display:flex; align-items:center; gap:6px;
-      font-size:11px; font-weight:600; color:#fff;
-    }
-
-    .hc-body { padding:20px 24px 24px; }
-    .hc-top { display:flex; align-items:center; gap:12px; margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid var(--border); }
-    .hc-av {
-      width:44px; height:44px; border-radius:50%; flex-shrink:0; overflow:hidden;
-      border:2px solid var(--accent);
-    }
-    .hc-av img { width:100%; height:100%; object-fit:cover; }
-    .hc-name { font-size:15px; font-weight:700; }
-    .hc-role { font-size:12px; color:var(--text2); margin-top:2px; }
-    .hc-bars { display:flex; flex-direction:column; gap:10px; }
-    .hc-bar-row { display:flex; align-items:center; justify-content:space-between; }
-    .hc-bar-label { font-size:12px; color:var(--text2); }
-    .hc-bar-track { width:130px; height:5px; background:var(--bg2); border-radius:5px; overflow:hidden; }
-    .hc-bar-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent-light)); border-radius:5px; }
-    .hc-foot { margin-top:16px; padding-top:16px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+    .hero-photo-badge-text { font-size: 13px; font-weight: 600; color: var(--text); }
+    .hero-photo-badge-sub  { font-size: 12px; color: var(--text2); }
     .open-badge { display:flex; align-items:center; gap:5px; font-size:11px; font-weight:600; color:var(--green); }
-    .open-dot { width:6px; height:6px; background:var(--green); border-radius:50%; }
+    .open-dot { width:7px; height:7px; background:var(--green); border-radius:50%; animation: pulse 2.2s infinite; }
     .region-tag { background:var(--bg2); border:1px solid var(--border); border-radius:5px; padding:3px 9px; font-size:11px; color:var(--text2); }
 
     /* ─────────────────────────────────────────
@@ -744,33 +730,14 @@
       </div>
 
       <div class="r d2">
-        <div class="hero-card">
-          <div class="hc-photo">
-            <img src="Photo.png" alt="Tanzeel Ur Rehman — Senior Brand & Web Designer" />
-            <div class="hc-photo-overlay"></div>
-            <div class="hc-photo-badge">
-              <span class="open-dot"></span> Available for Work
-            </div>
-          </div>
-          <div class="hc-body">
-            <div class="hc-top">
-              <div class="hc-av">
-                <img src="Photo.png" alt="Tanzeel Ur Rehman" />
-              </div>
-              <div>
-                <div class="hc-name">Tanzeel Ur Rehman</div>
-                <div class="hc-role">Senior Brand &amp; Web Designer</div>
-              </div>
-            </div>
-            <div class="hc-bars">
-              <div class="hc-bar-row"><span class="hc-bar-label">Figma</span><div class="hc-bar-track"><div class="hc-bar-fill" style="width:95%"></div></div></div>
-              <div class="hc-bar-row"><span class="hc-bar-label">Brand Identity</span><div class="hc-bar-track"><div class="hc-bar-fill" style="width:95%"></div></div></div>
-              <div class="hc-bar-row"><span class="hc-bar-label">UI/UX Design</span><div class="hc-bar-track"><div class="hc-bar-fill" style="width:92%"></div></div></div>
-              <div class="hc-bar-row"><span class="hc-bar-label">Adobe Suite</span><div class="hc-bar-track"><div class="hc-bar-fill" style="width:88%"></div></div></div>
-            </div>
-            <div class="hc-foot">
-              <div class="open-badge"><span class="open-dot"></span> Available for Work</div>
-              <div class="region-tag">US · EU · AU</div>
+        <div class="hero-photo-wrap">
+          <div class="hero-photo-bg"></div>
+          <img src="Photo.png" alt="Tanzeel Ur Rehman — Senior Brand & Web Designer" class="hero-photo-img" />
+          <div class="hero-photo-badge">
+            <span class="open-dot"></span>
+            <div>
+              <div class="hero-photo-badge-text">Tanzeel Ur Rehman</div>
+              <div class="hero-photo-badge-sub">Senior Brand &amp; Web Designer · Available</div>
             </div>
           </div>
         </div>
