@@ -13,7 +13,7 @@
   <link rel="canonical" href="https://tanzeelsid.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
     /* ─────────────────────────────────────────
@@ -199,6 +199,62 @@
     [data-theme="dark"]  .ic-moon { display:none;  }
     [data-theme="light"] .ic-sun  { display:none;  }
     [data-theme="light"] .ic-moon { display:block; }
+
+    /* Language switcher */
+    .lang-wrap { position:relative; }
+    .lang-btn {
+      display:flex; align-items:center; gap:5px;
+      height:40px; padding:0 12px; border-radius:9px;
+      background:var(--surface); border:1.5px solid var(--border);
+      font-size:13px; font-weight:600; color:var(--text2);
+      transition: all var(--dur) var(--ease); white-space:nowrap;
+    }
+    .lang-btn:hover { border-color:var(--accent); color:var(--accent); }
+    .lang-btn svg { transition: transform var(--dur) var(--ease); }
+    .lang-wrap .lang-dropdown {
+      position:absolute; top:calc(100% + 8px); right:0;
+      background:var(--surface); border:1.5px solid var(--border2);
+      border-radius:12px; padding:6px; min-width:148px; z-index:300;
+      box-shadow:0 16px 40px rgba(0,0,0,.25);
+      opacity:0; visibility:hidden; pointer-events:none;
+      transform:translateY(-6px);
+      transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), visibility var(--dur);
+      list-style:none;
+    }
+    .lang-wrap .lang-dropdown.open {
+      opacity:1; visibility:visible; pointer-events:auto; transform:translateY(0);
+    }
+    .lang-option {
+      display:flex; align-items:center; gap:8px; width:100%;
+      padding:9px 12px; border-radius:8px; border:none;
+      background:transparent; font-size:13px; font-weight:500; color:var(--text2);
+      text-align:left; cursor:pointer;
+      transition: all var(--dur) var(--ease);
+    }
+    .lang-option:hover { color:var(--text); background:var(--bg2); }
+    .lang-option.lang-active { color:var(--accent); font-weight:700; }
+
+    /* Arabic font */
+    [lang="ar"] body, [lang="ar"] .nav-links a, [lang="ar"] .btn,
+    [lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3, [lang="ar"] p,
+    [lang="ar"] span, [lang="ar"] .label, [lang="ar"] .proof-label {
+      font-family: 'Cairo', 'Inter', sans-serif;
+    }
+
+    /* RTL layout tweaks */
+    [dir="rtl"] .label::before { margin-left:0; margin-right:0; order:-1; }
+    [dir="rtl"] .hero-sub { max-width:100%; }
+    [dir="rtl"] .hero-photo-col img { right:auto; left:0; }
+    [dir="rtl"] .nav-links { flex-direction:row-reverse; }
+    [dir="rtl"] .nav-right { flex-direction:row-reverse; }
+    [dir="rtl"] .lang-wrap .lang-dropdown { right:auto; left:0; }
+    [dir="rtl"] .lang-option { text-align:right; }
+    [dir="rtl"] .proof-inner { flex-direction:row-reverse; }
+    [dir="rtl"] .dropdown-menu { left:auto; right:50%; transform:translateX(50%) translateY(-8px); }
+    [dir="rtl"] .nav-dropdown:hover .dropdown-menu { transform:translateX(50%) translateY(0); }
+    [dir="rtl"] .cs-full { flex-direction:row-reverse; }
+    [dir="rtl"] .cs-full.flip { flex-direction:row; }
+    [dir="rtl"] .footer-inner { flex-direction:row-reverse; }
 
     .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; padding:8px; }
     .hamburger span { display:block; width:22px; height:2px; background:var(--text); border-radius:2px; transition:all var(--dur) var(--ease); }
@@ -684,29 +740,40 @@
         Tanzeel Sid
       </a>
       <ul class="nav-links" id="navLinks">
-        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="index.html" class="active" data-i18n="nav.home">Home</a></li>
         <li class="nav-dropdown">
-          <a href="about.html">About Me
+          <a href="about.html"><span data-i18n="nav.about">About Me</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="about.html#about"><span class="dm-icon">👤</span> My Story</a></li>
-            <li><a href="about.html#process"><span class="dm-icon">🔍</span> How I Solve Problems</a></li>
-            <li><a href="about.html#skills"><span class="dm-icon">🛠️</span> Skills &amp; Tools</a></li>
-            <li><a href="about.html#experience"><span class="dm-icon">💼</span> My Experience</a></li>
+            <li><a href="about.html#about"><span class="dm-icon">👤</span> <span data-i18n="nav.mystory">My Story</span></a></li>
+            <li><a href="about.html#process"><span class="dm-icon">🔍</span> <span data-i18n="nav.process">How I Solve Problems</span></a></li>
+            <li><a href="about.html#skills"><span class="dm-icon">🛠️</span> <span data-i18n="nav.skills">Skills &amp; Tools</span></a></li>
+            <li><a href="about.html#experience"><span class="dm-icon">💼</span> <span data-i18n="nav.experience">My Experience</span></a></li>
           </ul>
         </li>
-        <li><a href="index.html#work">Work</a></li>
-        <li><a href="index.html#services">Services</a></li>
-        <li><a href="index.html#testimonials">Reviews</a></li>
-        <li><a href="index.html#contact">Contact</a></li>
+        <li><a href="index.html#work" data-i18n="nav.work">Work</a></li>
+        <li><a href="index.html#services" data-i18n="nav.services">Services</a></li>
+        <li><a href="index.html#testimonials" data-i18n="nav.reviews">Reviews</a></li>
+        <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
       </ul>
       <div class="nav-right">
+        <div class="lang-wrap">
+          <button class="lang-btn" aria-label="Change language">
+            <span class="lang-current">🇬🇧 EN</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <ul class="lang-dropdown">
+            <li><button class="lang-option" data-lang="en">🇬🇧 English</button></li>
+            <li><button class="lang-option" data-lang="ar">🇦🇪 العربية</button></li>
+            <li><button class="lang-option" data-lang="nl">🇳🇱 Nederlands</button></li>
+          </ul>
+        </div>
         <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
           <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
-        <a href="#contact" class="btn btn-primary" style="padding:10px 22px;font-size:14px;">Hire Me</a>
+        <a href="#contact" class="btn btn-primary" style="padding:10px 22px;font-size:14px;" data-i18n="nav.hireme">Hire Me</a>
         <button class="hamburger" id="hamburger" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
@@ -725,31 +792,31 @@
       <div class="r">
         <div class="hero-avail">
           <span class="avail-dot"></span>
-          Open to Remote Roles · US / EU / AU
+          <span data-i18n="hero.avail">Open to Remote Roles · US / EU / AU</span>
         </div>
-        <h1 class="h1 hero-title">
+        <h1 class="h1 hero-title" data-i18n="hero.title">
           I Help SaaS &amp;<br/>
           AI Startups <span class="accent-text serif">Design</span><br/>
           Brands That Convert.
         </h1>
-        <p class="hero-sub">
+        <p class="hero-sub" data-i18n="hero.sub">
           Senior Brand &amp; Web Designer — 7+ years turning business goals into visual
           systems, products, and websites that drive real results.
         </p>
         <div class="hero-actions">
           <a href="#contact" class="btn btn-primary">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.6 1.32h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.92z"/></svg>
-            Start a Project
+            <span data-i18n="hero.cta1">Start a Project</span>
           </a>
           <a href="#work" class="btn btn-ghost">
-            View My Work
+            <span data-i18n="hero.cta2">View My Work</span>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
         <div class="hero-stats">
-          <div><div class="stat-n">7<em>+</em></div><div class="stat-l">Years Experience</div></div>
-          <div><div class="stat-n">50<em>+</em></div><div class="stat-l">Projects Delivered</div></div>
-          <div><div class="stat-n">6<em>+</em></div><div class="stat-l">Companies &amp; Brands</div></div>
+          <div><div class="stat-n">7<em>+</em></div><div class="stat-l" data-i18n="hero.stat1l">Years Experience</div></div>
+          <div><div class="stat-n">50<em>+</em></div><div class="stat-l" data-i18n="hero.stat2l">Projects Delivered</div></div>
+          <div><div class="stat-n">6<em>+</em></div><div class="stat-l" data-i18n="hero.stat3l">Companies &amp; Brands</div></div>
         </div>
       </div>
 
@@ -765,7 +832,7 @@
 <section id="proof">
   <div class="wrap">
     <div class="proof-inner">
-      <span class="proof-label">Trusted by</span>
+      <span class="proof-label" data-i18n="proof.label">Trusted by</span>
       <div class="proof-divider"></div>
       <div class="proof-logos">
         <div class="proof-chip">Arbisoft</div>
@@ -784,13 +851,13 @@
   <div class="wrap">
     <div class="work-header r">
       <div>
-        <span class="label">Selected Work</span>
-        <h2 class="h2">Case Studies</h2>
-        <p style="color:var(--text2);font-size:17px;margin-top:10px;max-width:480px;line-height:1.7;">
+        <span class="label" data-i18n="work.label">Selected Work</span>
+        <h2 class="h2" data-i18n="work.title">Case Studies</h2>
+        <p style="color:var(--text2);font-size:17px;margin-top:10px;max-width:480px;line-height:1.7;" data-i18n="work.desc">
           A closer look at projects that moved the needle — with real challenges, decisions, and results.
         </p>
       </div>
-      <a href="https://behance.net/" target="_blank" class="btn btn-ghost">Full Portfolio on Behance →</a>
+      <a href="https://behance.net/" target="_blank" class="btn btn-ghost" data-i18n="work.behance">Full Portfolio on Behance →</a>
     </div>
 
     <!-- Case Study 1 -->
@@ -804,9 +871,9 @@
           </div>
         </div>
         <div class="cs-body">
-          <div class="cs-cat">Brand Identity · Branding System</div>
-          <h3 class="cs-title">Complete Brand Identity for a B2B SaaS Platform</h3>
-          <p class="cs-desc">
+          <div class="cs-cat" data-i18n="cs1.cat">Brand Identity · Branding System</div>
+          <h3 class="cs-title" data-i18n="cs1.title">Complete Brand Identity for a B2B SaaS Platform</h3>
+          <p class="cs-desc" data-i18n="cs1.desc">
             The client had a product but no brand — their visuals were inconsistent across marketing, product, and social. I designed a full identity system from the ground up that unified everything.
           </p>
           <div class="cs-metrics">
@@ -846,9 +913,9 @@
           </div>
         </div>
         <div class="cs-body">
-          <div class="cs-cat">UI/UX Design · SaaS Dashboard</div>
-          <h3 class="cs-title">AI Analytics Dashboard Redesign</h3>
-          <p class="cs-desc">
+          <div class="cs-cat" data-i18n="cs2.cat">UI/UX Design · SaaS Dashboard</div>
+          <h3 class="cs-title" data-i18n="cs2.title">AI Analytics Dashboard Redesign</h3>
+          <p class="cs-desc" data-i18n="cs2.desc">
             The existing dashboard was overloaded with data and causing user drop-off. I led a full redesign — from discovery and wireframes to a polished, component-based design system in Figma.
           </p>
           <div class="cs-metrics">
@@ -888,9 +955,9 @@
           </div>
         </div>
         <div class="cs-body">
-          <div class="cs-cat">Web Design · Lead Generation</div>
-          <h3 class="cs-title">High-Converting Landing Page for AI Startup</h3>
-          <p class="cs-desc">
+          <div class="cs-cat" data-i18n="cs3.cat">Web Design · Lead Generation</div>
+          <h3 class="cs-title" data-i18n="cs3.title">High-Converting Landing Page for AI Startup</h3>
+          <p class="cs-desc" data-i18n="cs3.desc">
             Designed a results-driven marketing website for an early-stage AI startup — clear value proposition, strategic CTAs, social proof sections, and mobile-first responsive design.
           </p>
           <div class="cs-metrics">
@@ -928,9 +995,9 @@
           </div>
         </div>
         <div class="mini-cs-body">
-          <div class="mini-cs-cat">Pitch Deck</div>
-          <div class="mini-cs-title">Investor Pitch Deck — Series A Startup</div>
-          <div class="mini-cs-desc">Story-driven presentation design built to impress investors and close the round.</div>
+          <div class="mini-cs-cat" data-i18n="cs4.cat">Pitch Deck</div>
+          <div class="mini-cs-title" data-i18n="cs4.title">Investor Pitch Deck — Series A Startup</div>
+          <div class="mini-cs-desc" data-i18n="cs4.desc">Story-driven presentation design built to impress investors and close the round.</div>
         </div>
         <div class="mini-cs-foot">
           <div class="mini-chips"><span class="mini-chip">Figma</span><span class="mini-chip">Keynote</span></div>
@@ -945,9 +1012,9 @@
           </div>
         </div>
         <div class="mini-cs-body">
-          <div class="mini-cs-cat">Social Media</div>
-          <div class="mini-cs-title">LinkedIn Growth Campaign</div>
-          <div class="mini-cs-desc">Branded social assets that drove measurable LinkedIn engagement growth for a tech company.</div>
+          <div class="mini-cs-cat" data-i18n="cs5.cat">Social Media</div>
+          <div class="mini-cs-title" data-i18n="cs5.title">LinkedIn Growth Campaign</div>
+          <div class="mini-cs-desc" data-i18n="cs5.desc">Branded social assets that drove measurable LinkedIn engagement growth for a tech company.</div>
         </div>
         <div class="mini-cs-foot">
           <div class="mini-chips"><span class="mini-chip">Illustrator</span><span class="mini-chip">Photoshop</span></div>
@@ -964,56 +1031,56 @@
   <div class="wrap">
     <div class="services-head r">
       <div>
-        <span class="label">Services</span>
-        <h2 class="h2">What I Do</h2>
+        <span class="label" data-i18n="svc.label">Services</span>
+        <h2 class="h2" data-i18n="svc.title">What I Do</h2>
       </div>
-      <a href="#contact" class="btn btn-ghost">Get a Quote →</a>
+      <a href="#contact" class="btn btn-ghost" data-i18n="svc.quote">Get a Quote →</a>
     </div>
     <div class="svc-grid">
       <div class="svc-card r d1">
         <div class="svc-icon">✦</div>
-        <div class="svc-title">Brand Identity Design</div>
-        <div class="svc-desc">Full visual identities that tell your story — logo systems, color palettes, typography, and brand guidelines that scale.</div>
+        <div class="svc-title" data-i18n="svc1.title">Brand Identity Design</div>
+        <div class="svc-desc" data-i18n="svc1.desc">Full visual identities that tell your story — logo systems, color palettes, typography, and brand guidelines that scale.</div>
         <div class="svc-deliverables">
           <span class="svc-del">Logo System</span><span class="svc-del">Color Palette</span><span class="svc-del">Typography</span><span class="svc-del">Brand Book</span>
         </div>
       </div>
       <div class="svc-card r d2">
         <div class="svc-icon">⬡</div>
-        <div class="svc-title">UI/UX Design</div>
-        <div class="svc-desc">End-to-end product design for web and mobile — wireframes, user flows, prototypes, and pixel-perfect Figma screens.</div>
+        <div class="svc-title" data-i18n="svc2.title">UI/UX Design</div>
+        <div class="svc-desc" data-i18n="svc2.desc">End-to-end product design for web and mobile — wireframes, user flows, prototypes, and pixel-perfect Figma screens.</div>
         <div class="svc-deliverables">
           <span class="svc-del">Wireframes</span><span class="svc-del">Prototypes</span><span class="svc-del">Design System</span><span class="svc-del">Dev Handoff</span>
         </div>
       </div>
       <div class="svc-card r d3">
         <div class="svc-icon">◈</div>
-        <div class="svc-title">Web &amp; Landing Page Design</div>
-        <div class="svc-desc">Conversion-focused marketing websites and landing pages that align with your brand and turn visitors into customers.</div>
+        <div class="svc-title" data-i18n="svc3.title">Web &amp; Landing Page Design</div>
+        <div class="svc-desc" data-i18n="svc3.desc">Conversion-focused marketing websites and landing pages that align with your brand and turn visitors into customers.</div>
         <div class="svc-deliverables">
           <span class="svc-del">Figma Design</span><span class="svc-del">Responsive</span><span class="svc-del">CRO-focused</span>
         </div>
       </div>
       <div class="svc-card r d1">
         <div class="svc-icon">▣</div>
-        <div class="svc-title">Social Media &amp; Digital Assets</div>
-        <div class="svc-desc">Scroll-stopping social posts, web banners, email templates, and digital assets — consistent, on-brand, at scale.</div>
+        <div class="svc-title" data-i18n="svc4.title">Social Media &amp; Digital Assets</div>
+        <div class="svc-desc" data-i18n="svc4.desc">Scroll-stopping social posts, web banners, email templates, and digital assets — consistent, on-brand, at scale.</div>
         <div class="svc-deliverables">
           <span class="svc-del">Social Posts</span><span class="svc-del">Banners</span><span class="svc-del">Email Design</span>
         </div>
       </div>
       <div class="svc-card r d2">
         <div class="svc-icon">◎</div>
-        <div class="svc-title">Pitch Deck Design</div>
-        <div class="svc-desc">Investor-grade presentations built to communicate your vision clearly and make your ask impossible to ignore.</div>
+        <div class="svc-title" data-i18n="svc5.title">Pitch Deck Design</div>
+        <div class="svc-desc" data-i18n="svc5.desc">Investor-grade presentations built to communicate your vision clearly and make your ask impossible to ignore.</div>
         <div class="svc-deliverables">
           <span class="svc-del">Story Structure</span><span class="svc-del">Figma / PPT</span><span class="svc-del">Animations</span>
         </div>
       </div>
       <div class="svc-card r d3">
         <div class="svc-icon">⬘</div>
-        <div class="svc-title">AI-Enhanced Design</div>
-        <div class="svc-desc">Faster delivery using Midjourney, Canva AI, Uizard, and Figma AI plugins — same quality, better turnaround, smarter budget.</div>
+        <div class="svc-title" data-i18n="svc6.title">AI-Enhanced Design</div>
+        <div class="svc-desc" data-i18n="svc6.desc">Faster delivery using Midjourney, Canva AI, Uizard, and Figma AI plugins — same quality, better turnaround, smarter budget.</div>
         <div class="svc-deliverables">
           <span class="svc-del">Midjourney</span><span class="svc-del">Uizard</span><span class="svc-del">Figma AI</span>
         </div>
@@ -1026,9 +1093,9 @@
 <section id="testimonials" class="sec">
   <div class="wrap">
     <div class="testi-header r">
-      <span class="label">Reviews</span>
-      <h2 class="h2">What Clients Say</h2>
-      <p style="color:var(--text2);font-size:17px;max-width:460px;margin:10px auto 0;line-height:1.7;">Real feedback from the people I've worked with.</p>
+      <span class="label" data-i18n="testi.label">Reviews</span>
+      <h2 class="h2" data-i18n="testi.title">What Clients Say</h2>
+      <p style="color:var(--text2);font-size:17px;max-width:460px;margin:10px auto 0;line-height:1.7;" data-i18n="testi.desc">Real feedback from the people I've worked with.</p>
     </div>
     <div class="testi-grid">
 
@@ -1088,17 +1155,17 @@
 <section id="contact" class="sec">
   <div class="wrap">
     <div class="contact-head r">
-      <span class="label">Get In Touch</span>
-      <h2 class="h2">Let's build something<br/><span class="serif accent-text">remarkable together.</span></h2>
-      <p>Open to full-time remote roles and freelance projects. Drop me a message — I reply within 24 hours.</p>
+      <span class="label" data-i18n="contact.label">Get In Touch</span>
+      <h2 class="h2" data-i18n="contact.title">Let's build something<br/><span class="serif accent-text">remarkable together.</span></h2>
+      <p data-i18n="contact.desc">Open to full-time remote roles and freelance projects. Drop me a message — I reply within 24 hours.</p>
     </div>
     <div class="contact-grid">
       <div class="r">
         <div class="contact-info-items">
-          <div class="ci"><div class="ci-ic">✉️</div><div><div class="ci-lbl">Email</div><div class="ci-val">tanzeelsid01@gmail.com</div></div></div>
-          <div class="ci"><div class="ci-ic">📞</div><div><div class="ci-lbl">Phone / WhatsApp</div><div class="ci-val">+92-334-9504075</div></div></div>
-          <div class="ci"><div class="ci-ic">📍</div><div><div class="ci-lbl">Location</div><div class="ci-val">Lahore, Pakistan · Remote Worldwide</div></div></div>
-          <div class="ci"><div class="ci-ic">🕐</div><div><div class="ci-lbl">Timezone</div><div class="ci-val">PKT (UTC+5) · Flexible US/EU overlap</div></div></div>
+          <div class="ci"><div class="ci-ic">✉️</div><div><div class="ci-lbl" data-i18n="contact.email.lbl">Email</div><div class="ci-val">tanzeelsid01@gmail.com</div></div></div>
+          <div class="ci"><div class="ci-ic">📞</div><div><div class="ci-lbl" data-i18n="contact.phone.lbl">Phone / WhatsApp</div><div class="ci-val">+92-334-9504075</div></div></div>
+          <div class="ci"><div class="ci-ic">📍</div><div><div class="ci-lbl" data-i18n="contact.loc.lbl">Location</div><div class="ci-val" data-i18n="contact.loc.val">Lahore, Pakistan · Remote Worldwide</div></div></div>
+          <div class="ci"><div class="ci-ic">🕐</div><div><div class="ci-lbl" data-i18n="contact.tz.lbl">Timezone</div><div class="ci-val" data-i18n="contact.tz.val">PKT (UTC+5) · Flexible US/EU overlap</div></div></div>
         </div>
         <div class="socials">
           <a href="https://linkedin.com/in/tanzeelsid" target="_blank" class="soc" title="LinkedIn">
@@ -1120,11 +1187,11 @@
         <div class="cform-title">Send a Message</div>
         <form id="contactForm">
           <div class="fg fg-row">
-            <div class="fg"><label for="name">Your Name</label><input type="text" id="name" placeholder="John Smith" required /></div>
-            <div class="fg"><label for="email">Email Address</label><input type="email" id="email" placeholder="john@company.com" required /></div>
+            <div class="fg"><label for="name" data-i18n="contact.f.name">Your Name</label><input type="text" id="name" data-i18n-ph="contact.f.ph.name" placeholder="John Smith" required /></div>
+            <div class="fg"><label for="email" data-i18n="contact.f.email">Email Address</label><input type="email" id="email" data-i18n-ph="contact.f.ph.email" placeholder="john@company.com" required /></div>
           </div>
           <div class="fg">
-            <label for="service">Service Needed</label>
+            <label for="service" data-i18n="contact.f.svc">Service Needed</label>
             <select id="service">
               <option value="">Select a service...</option>
               <option>Brand Identity Design</option>
@@ -1138,7 +1205,7 @@
             </select>
           </div>
           <div class="fg">
-            <label for="budget">Budget Range</label>
+            <label for="budget" data-i18n="contact.f.bgt">Budget Range</label>
             <select id="budget">
               <option value="">Select budget...</option>
               <option>Under $500</option>
@@ -1150,14 +1217,14 @@
             </select>
           </div>
           <div class="fg">
-            <label for="message">Project Details</label>
-            <textarea id="message" placeholder="Tell me about your project, goals, timeline, and any specific requirements..." required></textarea>
+            <label for="message" data-i18n="contact.f.msg">Project Details</label>
+            <textarea id="message" data-i18n-ph="contact.f.ph.msg" placeholder="Tell me about your project, goals, timeline, and any specific requirements..." required></textarea>
           </div>
           <button type="submit" class="btn btn-primary fsub">
-            Send Message
+            <span data-i18n="contact.f.submit">Send Message</span>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
-          <div class="fsuccess" id="formSuccess">✓ Message sent! I'll get back to you within 24 hours.</div>
+          <div class="fsuccess" id="formSuccess" data-i18n="contact.f.success">✓ Message sent! I'll get back to you within 24 hours.</div>
         </form>
       </div>
     </div>
@@ -1168,7 +1235,7 @@
 <footer>
   <div class="wrap">
     <div class="foot-row">
-      <div class="foot-copy">© 2026 <em>Tanzeel Ur Rehman</em>. Designed &amp; built with intent.</div>
+      <div class="foot-copy" data-i18n="footer.copy">© 2026 <em>Tanzeel Ur Rehman</em>. Designed &amp; built with intent.</div>
       <div class="foot-links">
         <a href="#work">Work</a>
         <a href="#services">Services</a>
@@ -1179,6 +1246,7 @@
   </div>
 </footer>
 
+<script src="i18n.js"></script>
 <script>
   // Theme
   const html = document.documentElement;

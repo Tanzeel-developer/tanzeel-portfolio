@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://tanzeelsid.com/about.html" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
       --accent:       #7C6EFA;
@@ -89,6 +89,33 @@
     .theme-btn svg { width:17px; height:17px; }
     [data-theme="dark"]  .ic-sun  { display:block; } [data-theme="dark"]  .ic-moon { display:none; }
     [data-theme="light"] .ic-sun  { display:none;  } [data-theme="light"] .ic-moon { display:block; }
+
+    /* Language switcher */
+    .lang-wrap { position:relative; }
+    .lang-btn { display:flex; align-items:center; gap:5px; height:40px; padding:0 12px; border-radius:9px; background:var(--surface); border:1.5px solid var(--border); font-size:13px; font-weight:600; color:var(--text2); transition:all var(--dur) var(--ease); white-space:nowrap; }
+    .lang-btn:hover { border-color:var(--accent); color:var(--accent); }
+    .lang-btn svg { transition:transform var(--dur) var(--ease); }
+    .lang-wrap .lang-dropdown { position:absolute; top:calc(100% + 8px); right:0; background:var(--surface); border:1.5px solid var(--border2); border-radius:12px; padding:6px; min-width:148px; z-index:300; box-shadow:0 16px 40px rgba(0,0,0,.25); opacity:0; visibility:hidden; pointer-events:none; transform:translateY(-6px); transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease),visibility var(--dur); list-style:none; }
+    .lang-wrap .lang-dropdown.open { opacity:1; visibility:visible; pointer-events:auto; transform:translateY(0); }
+    .lang-option { display:flex; align-items:center; gap:8px; width:100%; padding:9px 12px; border-radius:8px; border:none; background:transparent; font-size:13px; font-weight:500; color:var(--text2); text-align:left; cursor:pointer; transition:all var(--dur) var(--ease); }
+    .lang-option:hover { color:var(--text); background:var(--bg2); }
+    .lang-option.lang-active { color:var(--accent); font-weight:700; }
+
+    /* Arabic font */
+    [lang="ar"] body, [lang="ar"] .nav-links a, [lang="ar"] .btn,
+    [lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3, [lang="ar"] p,
+    [lang="ar"] span, [lang="ar"] .label { font-family:'Cairo','Inter',sans-serif; }
+
+    /* RTL tweaks */
+    [dir="rtl"] .label::before { order:-1; }
+    [dir="rtl"] .nav-links { flex-direction:row-reverse; }
+    [dir="rtl"] .nav-right { flex-direction:row-reverse; }
+    [dir="rtl"] .lang-wrap .lang-dropdown { right:auto; left:0; }
+    [dir="rtl"] .lang-option { text-align:right; }
+    [dir="rtl"] .dropdown-menu { left:auto; right:50%; transform:translateX(50%) translateY(-8px); }
+    [dir="rtl"] .nav-dropdown:hover .dropdown-menu { transform:translateX(50%) translateY(0); }
+    [dir="rtl"] .about-grid { direction:rtl; }
+    [dir="rtl"] .exp-item { direction:rtl; }
 
     .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; padding:8px; }
     .hamburger span { display:block; width:22px; height:2px; background:var(--text); border-radius:2px; transition:all var(--dur) var(--ease); }
@@ -209,29 +236,40 @@
         Tanzeel Sid
       </a>
       <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html" data-i18n="nav.home">Home</a></li>
         <li class="nav-dropdown">
-          <a href="about.html" class="active">About Me
+          <a href="about.html" class="active"><span data-i18n="nav.about">About Me</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="about.html#about"><span class="dm-icon">👤</span> My Story</a></li>
-            <li><a href="about.html#process"><span class="dm-icon">🔍</span> How I Solve Problems</a></li>
-            <li><a href="about.html#skills"><span class="dm-icon">🛠️</span> Skills &amp; Tools</a></li>
-            <li><a href="about.html#experience"><span class="dm-icon">💼</span> My Experience</a></li>
+            <li><a href="about.html#about"><span class="dm-icon">👤</span> <span data-i18n="nav.mystory">My Story</span></a></li>
+            <li><a href="about.html#process"><span class="dm-icon">🔍</span> <span data-i18n="nav.process">How I Solve Problems</span></a></li>
+            <li><a href="about.html#skills"><span class="dm-icon">🛠️</span> <span data-i18n="nav.skills">Skills &amp; Tools</span></a></li>
+            <li><a href="about.html#experience"><span class="dm-icon">💼</span> <span data-i18n="nav.experience">My Experience</span></a></li>
           </ul>
         </li>
-        <li><a href="index.html#work">Work</a></li>
-        <li><a href="index.html#services">Services</a></li>
-        <li><a href="index.html#testimonials">Reviews</a></li>
-        <li><a href="index.html#contact">Contact</a></li>
+        <li><a href="index.html#work" data-i18n="nav.work">Work</a></li>
+        <li><a href="index.html#services" data-i18n="nav.services">Services</a></li>
+        <li><a href="index.html#testimonials" data-i18n="nav.reviews">Reviews</a></li>
+        <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
       </ul>
       <div class="nav-right">
+        <div class="lang-wrap">
+          <button class="lang-btn" aria-label="Change language">
+            <span class="lang-current">🇬🇧 EN</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <ul class="lang-dropdown">
+            <li><button class="lang-option" data-lang="en">🇬🇧 English</button></li>
+            <li><button class="lang-option" data-lang="ar">🇦🇪 العربية</button></li>
+            <li><button class="lang-option" data-lang="nl">🇳🇱 Nederlands</button></li>
+          </ul>
+        </div>
         <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
           <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
-        <a href="index.html#contact" class="btn btn-primary" style="padding:10px 22px;font-size:14px;">Hire Me</a>
+        <a href="index.html#contact" class="btn btn-primary" style="padding:10px 22px;font-size:14px;" data-i18n="nav.hireme">Hire Me</a>
         <button class="hamburger" id="hamburger" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
@@ -244,9 +282,9 @@
 <section id="page-hero">
   <div class="ph-orb"></div>
   <div class="wrap ph-inner">
-    <span class="label">About Me</span>
-    <h1 class="ph-title">The designer behind<br/><span class="serif accent-text">the work.</span></h1>
-    <p class="ph-sub">My story, how I think, the tools I use, and the companies I've worked with.</p>
+    <span class="label" data-i18n="about.pg.label">About Me</span>
+    <h1 class="ph-title" data-i18n="about.pg.title">The designer behind<br/><span class="serif accent-text">the work.</span></h1>
+    <p class="ph-sub" data-i18n="about.pg.sub">My story, how I think, the tools I use, and the companies I've worked with.</p>
   </div>
 </section>
 
@@ -255,12 +293,12 @@
   <div class="wrap">
     <div class="about-grid">
       <div class="r">
-        <span class="label">My Story</span>
-        <h2 class="h2" style="margin-bottom:22px;">Design is how I<br/><span class="serif accent-text">solve problems.</span></h2>
+        <span class="label" data-i18n="about.label">My Story</span>
+        <h2 class="h2" style="margin-bottom:22px;" data-i18n="about.title">Design is how I<br/><span class="serif accent-text">solve problems.</span></h2>
         <div class="about-copy">
-          <p>I'm <strong>Tanzeel Ur Rehman</strong>, a Senior Brand &amp; Web Designer based in Lahore, Pakistan — with <strong>7+ years</strong> helping SaaS products and AI startups build brands that mean something and interfaces that work.</p>
-          <p>At <strong>Arbisoft</strong>, one of Pakistan's top-tier software companies, I lead visual design across brand identity, product UI/UX, marketing websites, and growth campaigns for international clients. Before that, I've worked across SaaS, email marketing (Unlayer), and AI analytics (Adlytic AI).</p>
-          <p>I'm <strong>timezone-flexible</strong>, async-friendly, and have worked with remote teams for years. I'm actively looking for senior remote design roles or freelance partnerships with ambitious teams.</p>
+          <p data-i18n="about.p1">I'm <strong>Tanzeel Ur Rehman</strong>, a Senior Brand &amp; Web Designer based in Lahore, Pakistan — with <strong>7+ years</strong> helping SaaS products and AI startups build brands that mean something and interfaces that work.</p>
+          <p data-i18n="about.p2">At <strong>Arbisoft</strong>, one of Pakistan's top-tier software companies, I lead visual design across brand identity, product UI/UX, marketing websites, and growth campaigns for international clients. Before that, I've worked across SaaS, email marketing (Unlayer), and AI analytics (Adlytic AI).</p>
+          <p data-i18n="about.p3">I'm <strong>timezone-flexible</strong>, async-friendly, and have worked with remote teams for years. I'm actively looking for senior remote design roles or freelance partnerships with ambitious teams.</p>
         </div>
         <div class="about-chips">
           <span class="achip">SaaS Design</span>
@@ -272,10 +310,10 @@
           <span class="achip">BS Software Engineering</span>
         </div>
         <div class="about-actions">
-          <a href="index.html#contact" class="btn btn-primary">Work With Me</a>
+          <a href="index.html#contact" class="btn btn-primary" data-i18n="about.cta1">Work With Me</a>
           <a href="#" class="btn btn-ghost">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download CV
+            <span data-i18n="about.cta2">Download CV</span>
           </a>
         </div>
       </div>
@@ -285,17 +323,17 @@
             <div class="av-icon">🏢</div>
             <div>
               <div class="av-num">Arbisoft</div>
-              <div class="av-label">Current · Senior Graphic Designer · Jan 2023–Present</div>
+              <div class="av-label" data-i18n="about.current">Current · Senior Graphic Designer · Jan 2023–Present</div>
             </div>
           </div>
         </div>
         <div class="avc-row">
-          <div class="av-card"><div class="av-num">7<em>+</em></div><div class="av-label">Years of Experience</div></div>
-          <div class="av-card"><div class="av-num">50<em>+</em></div><div class="av-label">Projects Delivered</div></div>
+          <div class="av-card"><div class="av-num">7<em>+</em></div><div class="av-label" data-i18n="about.stat1l">Years of Experience</div></div>
+          <div class="av-card"><div class="av-num">50<em>+</em></div><div class="av-label" data-i18n="about.stat2l">Projects Delivered</div></div>
         </div>
         <div class="avc-row">
-          <div class="av-card"><div class="av-num">6<em>+</em></div><div class="av-label">Companies Served</div></div>
-          <div class="av-card"><div class="av-num">95<em>%</em></div><div class="av-label">Client Satisfaction</div></div>
+          <div class="av-card"><div class="av-num">6<em>+</em></div><div class="av-label" data-i18n="about.stat3l">Companies Served</div></div>
+          <div class="av-card"><div class="av-num">95<em>%</em></div><div class="av-label" data-i18n="about.stat4l">Client Satisfaction</div></div>
         </div>
       </div>
     </div>
@@ -306,34 +344,34 @@
 <section id="process" class="sec">
   <div class="wrap">
     <div class="process-header r">
-      <span class="label">How I Solve Problems</span>
-      <h2 class="h2">My Design Process</h2>
-      <p>A clear, collaborative process that keeps projects on time, on brand, and on brief.</p>
+      <span class="label" data-i18n="process.label">How I Solve Problems</span>
+      <h2 class="h2" data-i18n="process.title">My Design Process</h2>
+      <p data-i18n="process.desc">A clear, collaborative process that keeps projects on time, on brand, and on brief.</p>
     </div>
     <div class="process-steps">
       <div class="process-step r d1">
         <div class="ps-num">01</div>
         <div class="ps-icon">🔍</div>
-        <div class="ps-title">Discover</div>
-        <div class="ps-desc">Deep-dive into your business, audience, competitors, and goals. No guesswork — only informed design decisions.</div>
+        <div class="ps-title" data-i18n="ps1.title">Discover</div>
+        <div class="ps-desc" data-i18n="ps1.desc">Deep-dive into your business, audience, competitors, and goals. No guesswork — only informed design decisions.</div>
       </div>
       <div class="process-step r d2">
         <div class="ps-num">02</div>
         <div class="ps-icon">📐</div>
-        <div class="ps-title">Define</div>
-        <div class="ps-desc">Clarify the brief, set success metrics, map user flows, and align on a creative direction before a single pixel is placed.</div>
+        <div class="ps-title" data-i18n="ps2.title">Define</div>
+        <div class="ps-desc" data-i18n="ps2.desc">Clarify the brief, set success metrics, map user flows, and align on a creative direction before a single pixel is placed.</div>
       </div>
       <div class="process-step r d3">
         <div class="ps-num">03</div>
         <div class="ps-icon">🎨</div>
-        <div class="ps-title">Design</div>
-        <div class="ps-desc">Wireframes, iterations, high-fidelity screens, and prototypes — with structured feedback rounds to keep it tight.</div>
+        <div class="ps-title" data-i18n="ps3.title">Design</div>
+        <div class="ps-desc" data-i18n="ps3.desc">Wireframes, iterations, high-fidelity screens, and prototypes — with structured feedback rounds to keep it tight.</div>
       </div>
       <div class="process-step r d4">
         <div class="ps-num">04</div>
         <div class="ps-icon">🚀</div>
-        <div class="ps-title">Deliver</div>
-        <div class="ps-desc">Pixel-perfect files, full handoff documentation, dev-ready assets, and post-launch support if needed.</div>
+        <div class="ps-title" data-i18n="ps4.title">Deliver</div>
+        <div class="ps-desc" data-i18n="ps4.desc">Pixel-perfect files, full handoff documentation, dev-ready assets, and post-launch support if needed.</div>
       </div>
     </div>
   </div>
@@ -343,20 +381,20 @@
 <section id="skills" class="sec">
   <div class="wrap">
     <div style="text-align:center;margin-bottom:56px" class="r">
-      <span class="label">Expertise</span>
-      <h2 class="h2">Skills &amp; Tools</h2>
+      <span class="label" data-i18n="skills.label">Expertise</span>
+      <h2 class="h2" data-i18n="skills.title">Skills &amp; Tools</h2>
     </div>
     <div class="skills-grid">
       <div class="r">
         <div class="skill-group">
-          <div class="sg-title">Design Software</div>
+          <div class="sg-title" data-i18n="skills.soft">Design Software</div>
           <div class="skill-row"><span class="skill-name">Figma</span><div class="skill-track"><div class="skill-fill" style="width:95%"></div></div></div>
           <div class="skill-row"><span class="skill-name">Adobe Illustrator</span><div class="skill-track"><div class="skill-fill" style="width:90%"></div></div></div>
           <div class="skill-row"><span class="skill-name">Adobe Photoshop</span><div class="skill-track"><div class="skill-fill" style="width:88%"></div></div></div>
           <div class="skill-row"><span class="skill-name">Adobe InDesign</span><div class="skill-track"><div class="skill-fill" style="width:80%"></div></div></div>
         </div>
         <div class="skill-group">
-          <div class="sg-title">Design Disciplines</div>
+          <div class="sg-title" data-i18n="skills.disc">Design Disciplines</div>
           <div class="skill-row"><span class="skill-name">Brand Identity</span><div class="skill-track"><div class="skill-fill" style="width:95%"></div></div></div>
           <div class="skill-row"><span class="skill-name">UI/UX Design</span><div class="skill-track"><div class="skill-fill" style="width:92%"></div></div></div>
           <div class="skill-row"><span class="skill-name">Design Systems</span><div class="skill-track"><div class="skill-fill" style="width:87%"></div></div></div>
@@ -364,7 +402,7 @@
         </div>
       </div>
       <div class="r d2">
-        <div class="sg-title" style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;">Tools &amp; Platforms</div>
+        <div class="sg-title" style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;" data-i18n="skills.tools">Tools &amp; Platforms</div>
         <div class="tools-wrap">
           <div class="tool-tag">🎨 Figma</div>
           <div class="tool-tag">🖌️ Photoshop</div>
@@ -392,9 +430,9 @@
 <section id="experience" class="sec">
   <div class="wrap">
     <div class="r">
-      <span class="label">Career</span>
-      <h2 class="h2">My Experience</h2>
-      <p style="color:var(--text2);font-size:17px;margin-top:10px;max-width:480px;line-height:1.7;">7+ years across SaaS, AI, and software companies.</p>
+      <span class="label" data-i18n="exp.label">Career</span>
+      <h2 class="h2" data-i18n="exp.title">My Experience</h2>
+      <p style="color:var(--text2);font-size:17px;margin-top:10px;max-width:480px;line-height:1.7;" data-i18n="exp.desc">7+ years across SaaS, AI, and software companies.</p>
     </div>
     <div class="exp-grid">
       <div class="exp-card hero-exp r">
@@ -453,7 +491,7 @@
 <footer>
   <div class="wrap">
     <div class="foot-row">
-      <div class="foot-copy">© 2026 <em>Tanzeel Ur Rehman</em>. Designed &amp; built with intent.</div>
+      <div class="foot-copy" data-i18n="footer.copy">© 2026 <em>Tanzeel Ur Rehman</em>. Designed &amp; built with intent.</div>
       <div class="foot-links">
         <a href="index.html#work">Work</a>
         <a href="index.html#services">Services</a>
@@ -464,6 +502,7 @@
   </div>
 </footer>
 
+<script src="i18n.js"></script>
 <script>
   const html = document.documentElement;
   html.setAttribute('data-theme', localStorage.getItem('ts-theme') || 'dark');
