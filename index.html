@@ -512,35 +512,58 @@
        SERVICES
     ───────────────────────────────────────── */
     #services { background:var(--bg2); }
-    .services-head { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:56px; }
-    .svc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
-    .svc-card-wide { grid-column: 1 / -1; display:flex; flex-direction:row; align-items:flex-start; gap:28px; }
-    .svc-card-wide .svc-deliverables { margin-top:0; flex-shrink:0; }
-    @media(max-width:768px) { .svc-card-wide { flex-direction:column; } }
-    .svc-card {
-      background:var(--surface); border:1.5px solid var(--border);
-      border-radius:20px; padding:30px; position:relative; overflow:hidden;
-      transition:all var(--dur) var(--ease);
+    .services-head { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:48px; }
+
+    /* Tab-based services layout */
+    .svc-tabs-wrap {
+      border:1.5px solid var(--border2); border-radius:20px; overflow:hidden;
+      display:grid; grid-template-columns:260px 1fr;
     }
-    .svc-card::before {
-      content:''; position:absolute; top:0; left:0; right:0; height:2px;
-      background:linear-gradient(90deg,var(--accent),var(--accent-light));
-      transform:scaleX(0); transform-origin:left; transition:transform var(--dur) var(--ease);
+    .svc-tabs-nav {
+      background:var(--surface); border-right:1.5px solid var(--border2);
+      padding:10px; display:flex; flex-direction:column; gap:2px;
     }
-    .svc-card:hover { border-color:rgba(124,110,250,.25); transform:translateY(-5px); box-shadow:0 20px 56px rgba(0,0,0,.14); }
-    .svc-card:hover::before { transform:scaleX(1); }
-    .svc-icon {
-      width:50px; height:50px; border-radius:13px;
-      background:var(--accent-glow); border:1.5px solid rgba(124,110,250,.2);
-      display:flex; align-items:center; justify-content:center; font-size:22px;
-      margin-bottom:18px;
+    .svc-tab-btn {
+      display:block; width:100%; text-align:left;
+      padding:13px 18px; border-radius:10px; border:none;
+      background:transparent; font-size:14px; font-weight:500;
+      color:var(--text2); cursor:pointer;
+      transition:all var(--dur) var(--ease); font-family:inherit;
     }
-    .svc-title { font-size:16px; font-weight:700; margin-bottom:8px; }
-    .svc-desc { font-size:13px; color:var(--text2); line-height:1.6; margin-bottom:16px; }
-    .svc-deliverables { display:flex; flex-wrap:wrap; gap:6px; }
-    .svc-del {
-      background:var(--bg2); border-radius:5px; padding:3px 9px;
-      font-size:11px; color:var(--text3);
+    .svc-tab-btn:hover { color:var(--text); background:var(--bg2); }
+    .svc-tab-btn.active { background:var(--accent); color:#fff; font-weight:600; }
+    .svc-tabs-panel { background:var(--surface); padding:44px 52px; }
+    .svc-panel { display:none; }
+    .svc-panel.active { display:block; }
+    .svc-panel-title { font-size:22px; font-weight:800; color:var(--text); margin-bottom:14px; letter-spacing:-.4px; }
+    .svc-panel-desc { font-size:15px; color:var(--text2); line-height:1.8; margin-bottom:30px; max-width:580px; }
+    .svc-panel-items {
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:12px 56px; margin-bottom:36px;
+    }
+    .svc-panel-item {
+      display:flex; align-items:center; gap:10px;
+      font-size:14px; color:var(--text); font-weight:500;
+    }
+    .svc-panel-item::before {
+      content:''; width:8px; height:8px; flex-shrink:0;
+      background:var(--accent); border-radius:2px;
+    }
+    .svc-panel-foot { text-align:right; }
+    .svc-panel-cta {
+      font-size:14px; font-weight:700; color:var(--accent);
+      display:inline-flex; align-items:center; gap:6px;
+      transition:gap var(--dur) var(--ease);
+    }
+    .svc-panel-cta:hover { gap:12px; }
+
+    @media(max-width:768px) {
+      .svc-tabs-wrap { grid-template-columns:1fr; }
+      .svc-tabs-nav { border-right:none; border-bottom:1.5px solid var(--border2); display:flex; overflow-x:auto; gap:4px; flex-wrap:nowrap; padding:8px; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+      .svc-tabs-nav::-webkit-scrollbar { display:none; }
+      .svc-tab-btn { white-space:nowrap; flex-shrink:0; }
+      .svc-tabs-panel { padding:28px 24px; }
+      .svc-panel-items { grid-template-columns:1fr; }
     }
 
     /* ─────────────────────────────────────────
@@ -843,66 +866,121 @@
         <span class="label" data-i18n="svc.label">Services</span>
         <h2 class="h2" data-i18n="svc.title">What I Do</h2>
       </div>
-      <a href="#contact" class="btn btn-ghost" data-i18n="svc.quote">Get a Quote →</a>
     </div>
-    <div class="svc-grid">
-      <div class="svc-card r d1">
-        <div class="svc-icon">⬡</div>
-        <div class="svc-title" data-i18n="svc1.title">UI/UX Design</div>
-        <div class="svc-desc" data-i18n="svc1.desc">End-to-end product design for web and mobile — wireframes, user flows, prototypes, and pixel-perfect Figma screens that users love.</div>
-        <div class="svc-deliverables">
-          <span class="svc-del">Wireframes</span><span class="svc-del">Prototypes</span><span class="svc-del">Design System</span><span class="svc-del">Dev Handoff</span>
+
+    <div class="svc-tabs-wrap r">
+      <!-- Left: tab list -->
+      <nav class="svc-tabs-nav">
+        <button class="svc-tab-btn active" data-tab="svc1" data-i18n="svc1.title">UI/UX Design</button>
+        <button class="svc-tab-btn" data-tab="svc2" data-i18n="svc2.title">Website Design &amp; Dev with AI</button>
+        <button class="svc-tab-btn" data-tab="svc3" data-i18n="svc3.title">Email Newsletter Design</button>
+        <button class="svc-tab-btn" data-tab="svc4" data-i18n="svc4.title">Brand Identity Design</button>
+        <button class="svc-tab-btn" data-tab="svc5" data-i18n="svc5.title">Social Media Ads</button>
+        <button class="svc-tab-btn" data-tab="svc6" data-i18n="svc6.title">Print Media Design</button>
+        <button class="svc-tab-btn" data-tab="svc7" data-i18n="svc7.title">Marketing Collaterals</button>
+      </nav>
+
+      <!-- Right: panel content -->
+      <div class="svc-tabs-panel">
+
+        <div class="svc-panel active" id="svc1">
+          <div class="svc-panel-title" data-i18n="svc1.title">UI/UX Design</div>
+          <p class="svc-panel-desc" data-i18n="svc1.desc">End-to-end product design for web and mobile — from discovery and wireframes to polished Figma screens and dev-ready design systems that users genuinely love using.</p>
+          <div class="svc-panel-items">
+            <div class="svc-panel-item">User Research &amp; Discovery</div>
+            <div class="svc-panel-item">Interactive Prototypes</div>
+            <div class="svc-panel-item">Wireframing &amp; User Flows</div>
+            <div class="svc-panel-item">Design Systems</div>
+            <div class="svc-panel-item">High-Fidelity Figma Screens</div>
+            <div class="svc-panel-item">Developer Handoff</div>
+          </div>
+          <div class="svc-panel-foot"><a href="#contact" class="svc-panel-cta" data-i18n="svc.quote">Get a Quote →</a></div>
         </div>
-      </div>
-      <div class="svc-card r d2">
-        <div class="svc-icon">◈</div>
-        <div class="svc-title" data-i18n="svc2.title">Website Design &amp; Development with AI</div>
-        <div class="svc-desc" data-i18n="svc2.desc">Conversion-focused marketing websites and landing pages — built smarter and faster using AI tools like Midjourney, Uizard, and Figma AI.</div>
-        <div class="svc-deliverables">
-          <span class="svc-del">Figma Design</span><span class="svc-del">Responsive</span><span class="svc-del">AI-Accelerated</span><span class="svc-del">CRO-Focused</span>
+
+        <div class="svc-panel" id="svc2">
+          <div class="svc-panel-title" data-i18n="svc2.title">Website Design &amp; Development with AI</div>
+          <p class="svc-panel-desc" data-i18n="svc2.desc">Marketing websites and landing pages built smarter and faster — I use AI tools like Midjourney, Uizard, and Figma AI to accelerate design without compromising quality or precision.</p>
+          <div class="svc-panel-items">
+            <div class="svc-panel-item">Marketing Websites</div>
+            <div class="svc-panel-item">AI-Accelerated Workflow</div>
+            <div class="svc-panel-item">Landing Pages</div>
+            <div class="svc-panel-item">CRO-Focused Layouts</div>
+            <div class="svc-panel-item">Responsive &amp; Mobile-First</div>
+            <div class="svc-panel-item">Figma to Development</div>
+          </div>
+          <div class="svc-panel-foot"><a href="#contact" class="svc-panel-cta" data-i18n="svc.quote">Get a Quote →</a></div>
         </div>
-      </div>
-      <div class="svc-card r d3">
-        <div class="svc-icon">✉</div>
-        <div class="svc-title" data-i18n="svc3.title">Email Newsletter Design</div>
-        <div class="svc-desc" data-i18n="svc3.desc">Pixel-perfect, HTML-based responsive email templates — crafted for high open rates, consistent branding, and flawless rendering across all email clients.</div>
-        <div class="svc-deliverables">
-          <span class="svc-del">HTML/CSS</span><span class="svc-del">Responsive</span><span class="svc-del">Multi-Client</span><span class="svc-del">Unlayer</span>
+
+        <div class="svc-panel" id="svc3">
+          <div class="svc-panel-title" data-i18n="svc3.title">Email Newsletter Design</div>
+          <p class="svc-panel-desc" data-i18n="svc3.desc">Pixel-perfect, HTML-based responsive email templates built for high open rates and flawless rendering — with hands-on experience building production templates at Unlayer.</p>
+          <div class="svc-panel-items">
+            <div class="svc-panel-item">HTML/CSS Email Templates</div>
+            <div class="svc-panel-item">Multi-Client Testing</div>
+            <div class="svc-panel-item">Responsive Layouts</div>
+            <div class="svc-panel-item">Unlayer Integration</div>
+            <div class="svc-panel-item">Campaign-Ready Files</div>
+            <div class="svc-panel-item">Brand-Consistent Design</div>
+          </div>
+          <div class="svc-panel-foot"><a href="#contact" class="svc-panel-cta" data-i18n="svc.quote">Get a Quote →</a></div>
         </div>
-      </div>
-      <div class="svc-card r d1">
-        <div class="svc-icon">✦</div>
-        <div class="svc-title" data-i18n="svc4.title">Brand Identity Design</div>
-        <div class="svc-desc" data-i18n="svc4.desc">Complete visual identity systems — logo, color palette, typography, and comprehensive style guidelines that ensure consistency across every touchpoint.</div>
-        <div class="svc-deliverables">
-          <span class="svc-del">Logo System</span><span class="svc-del">Color Palette</span><span class="svc-del">Typography</span><span class="svc-del">Style Guidelines</span>
+
+        <div class="svc-panel" id="svc4">
+          <div class="svc-panel-title" data-i18n="svc4.title">Brand Identity Design</div>
+          <p class="svc-panel-desc" data-i18n="svc4.desc">Complete visual identity systems built to last — from logo concept to a full brand book with color palette, typography, and style guidelines that keep your brand consistent everywhere.</p>
+          <div class="svc-panel-items">
+            <div class="svc-panel-item">Logo System</div>
+            <div class="svc-panel-item">Typography System</div>
+            <div class="svc-panel-item">Color Palette</div>
+            <div class="svc-panel-item">Complete Style Guidelines</div>
+            <div class="svc-panel-item">Brand Book</div>
+            <div class="svc-panel-item">All Format Deliverables</div>
+          </div>
+          <div class="svc-panel-foot"><a href="#contact" class="svc-panel-cta" data-i18n="svc.quote">Get a Quote →</a></div>
         </div>
-      </div>
-      <div class="svc-card r d2">
-        <div class="svc-icon">▣</div>
-        <div class="svc-title" data-i18n="svc5.title">Social Media Ads</div>
-        <div class="svc-desc" data-i18n="svc5.desc">Scroll-stopping ad creatives for paid social campaigns — designed for performance, on-brand, and optimized for every platform format and size.</div>
-        <div class="svc-deliverables">
-          <span class="svc-del">Meta Ads</span><span class="svc-del">LinkedIn Ads</span><span class="svc-del">Static &amp; Motion</span><span class="svc-del">A/B Variants</span>
+
+        <div class="svc-panel" id="svc5">
+          <div class="svc-panel-title" data-i18n="svc5.title">Social Media Ads</div>
+          <p class="svc-panel-desc" data-i18n="svc5.desc">Scroll-stopping ad creatives designed for paid social performance — on-brand, platform-optimized, and built to drive clicks and conversions across Meta, LinkedIn, and beyond.</p>
+          <div class="svc-panel-items">
+            <div class="svc-panel-item">Meta Ads (FB &amp; IG)</div>
+            <div class="svc-panel-item">Animated / Motion Graphics</div>
+            <div class="svc-panel-item">LinkedIn Ads</div>
+            <div class="svc-panel-item">A/B Test Variants</div>
+            <div class="svc-panel-item">Static Creatives</div>
+            <div class="svc-panel-item">Platform-Sized Sets</div>
+          </div>
+          <div class="svc-panel-foot"><a href="#contact" class="svc-panel-cta" data-i18n="svc.quote">Get a Quote →</a></div>
         </div>
-      </div>
-      <div class="svc-card r d3">
-        <div class="svc-icon">◎</div>
-        <div class="svc-title" data-i18n="svc6.title">Print Media Design</div>
-        <div class="svc-desc" data-i18n="svc6.desc">Professional print-ready designs — brochures, flyers, posters, and packaging that carry your brand into the physical world with precision.</div>
-        <div class="svc-deliverables">
-          <span class="svc-del">Brochures</span><span class="svc-del">Flyers</span><span class="svc-del">Posters</span><span class="svc-del">Packaging</span>
+
+        <div class="svc-panel" id="svc6">
+          <div class="svc-panel-title" data-i18n="svc6.title">Print Media Design</div>
+          <p class="svc-panel-desc" data-i18n="svc6.desc">Professional, print-ready designs that carry your brand into the physical world — precise, polished, and delivered as production-ready files for any print house.</p>
+          <div class="svc-panel-items">
+            <div class="svc-panel-item">Brochures</div>
+            <div class="svc-panel-item">Corporate Stationery</div>
+            <div class="svc-panel-item">Flyers &amp; Posters</div>
+            <div class="svc-panel-item">Event Materials</div>
+            <div class="svc-panel-item">Packaging Design</div>
+            <div class="svc-panel-item">Print-Ready Files</div>
+          </div>
+          <div class="svc-panel-foot"><a href="#contact" class="svc-panel-cta" data-i18n="svc.quote">Get a Quote →</a></div>
         </div>
-      </div>
-      <div class="svc-card svc-card-wide r d1">
-        <div>
-          <div class="svc-icon">⬘</div>
-          <div class="svc-title" data-i18n="svc7.title">Marketing Collaterals</div>
-          <div class="svc-desc" data-i18n="svc7.desc">Investor-grade pitch decks, proposal decks, and corporate presentations — story-driven, visually compelling, and built to move decisions forward.</div>
+
+        <div class="svc-panel" id="svc7">
+          <div class="svc-panel-title" data-i18n="svc7.title">Marketing Collaterals</div>
+          <p class="svc-panel-desc" data-i18n="svc7.desc">Investor-grade pitch decks, proposal decks, and corporate presentations — story-driven and visually compelling, built to communicate ideas clearly and move decisions forward.</p>
+          <div class="svc-panel-items">
+            <div class="svc-panel-item">Pitch Decks</div>
+            <div class="svc-panel-item">Investor Presentations</div>
+            <div class="svc-panel-item">Proposal Decks</div>
+            <div class="svc-panel-item">Sales Presentations</div>
+            <div class="svc-panel-item">Corporate Presentations</div>
+            <div class="svc-panel-item">Figma / PowerPoint</div>
+          </div>
+          <div class="svc-panel-foot"><a href="#contact" class="svc-panel-cta" data-i18n="svc.quote">Get a Quote →</a></div>
         </div>
-        <div class="svc-deliverables">
-          <span class="svc-del">Pitch Decks</span><span class="svc-del">Proposal Decks</span><span class="svc-del">Corporate Presentations</span><span class="svc-del">Figma / PPT</span>
-        </div>
+
       </div>
     </div>
   </div>
@@ -1254,6 +1332,16 @@
     const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
     localStorage.setItem('ts-theme', next);
+  });
+
+  // Services tabs
+  document.querySelectorAll('.svc-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.svc-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.svc-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
   });
 
   // Scroll reveal
